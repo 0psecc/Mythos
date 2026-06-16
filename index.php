@@ -20,11 +20,13 @@ $melding = "";
         <p><?php echo $melding; ?></p>
     <?php endif; ?>
 
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-        <label>Bestand kiezen:</label>
-        <input type="file" name="bestand" required>
-        <button type="submit">Uploaden</button>
-    </form>
+<!-- Formulier dat naar upload.php stuurt via POST -->
+<!-- enctype="multipart/form-data" is verplicht voor het versturen van bestanden -->
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    <label>Bestand kiezen:</label>
+    <input type="file" name="bestand" required> <!-- Bestandskiezer, verplicht in te vullen -->
+    <button type="submit">Uploaden</button>
+</form>
 
     <p><a href="files.php">Ga naar bestandenlijst</a></p>
 </body>
