@@ -23,6 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // Controleert of het formulier ver
         $melding = "Geen geldig bestand ontvangen.";
     }
 }
+
+
+
+
 ?>
 
 <!DOCTYPE html>
