@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "mythos";
+$servername = "database-5020707928.webspace-host.com";
+$username = "dbu2762504";
+$password = "MythosDB_2026!";
+$dbname = "dbs15793234";
 
 try {
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
