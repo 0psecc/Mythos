@@ -4,6 +4,8 @@ $dbname = "mythos";
 $username = "root";
 $password = "";
 
+// finn test
+
 try {
     $dsn = "mysql:host=$servername;dbname=$dbname;port=3306;charset=utf8mb4";
 
