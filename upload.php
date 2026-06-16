@@ -10,22 +10,7 @@ $melding = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_FILES["bestand"]) && $_FILES["bestand"]["error"] === 0) {
-    $allowedExtensions = [
-        'jpg',
-        'jpeg',
-        'pdf',
-        'png',
-        'gif'
-    ];
 
-    $extension = strtolower(pathinfo(
-        $_FILES['bestand']['name'],
-        PATHINFO_EXTENSION
-));
-
-if (!in_array($extension, $allowedExtensions, true)) {
-    die("File type is not supported");
-}
         $bestandsnaam = basename($_FILES["bestand"]["name"]);
         $doel = $uploadmap . $bestandsnaam;
 
