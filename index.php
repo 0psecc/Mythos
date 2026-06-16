@@ -1,19 +1,24 @@
 <?php
-$servername = "database-5020707928.webspace-host.com";
-$username = "dbu2762504";
-$password = "MythosDB_2026!";
-$dbname = "dbs15793234";
+$servername = "localhost"; 
+$dbname = "mythos";
+$username = "root";
+$password = "";
 
 try {
-  $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-  // set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected successfully";
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
+    $dsn = "mysql:host=$servername;dbname=$dbname;port=3306;charset=utf8mb4";
+
+    $conn = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 10, // prevents long hanging attempts
+        PDO::ATTR_PERSISTENT => false,
+    ]);
+
+    echo "Connected successfully";
+
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
-
 
 <html lang="en">
 <head>
