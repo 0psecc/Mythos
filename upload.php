@@ -1,6 +1,8 @@
 <?php
 $uploadmap = "uploads/";
-
+if (empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] === "off") {
+    die("Verbinding is niet beveiligd. Gebruik HTTPS.");
+}
 if (!file_exists($uploadmap)) {
     mkdir($uploadmap, 0777, true); // Maakt de map aan als die nog niet bestaat
 }
@@ -13,6 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // Controleert of het formulier ver
         $bestandsnaam = basename($_FILES["bestand"]["name"]); // Haalt de bestandsnaam op
         $doel = $uploadmap . $bestandsnaam; // Bouwt het volledige pad op waar het bestand naartoe gaat
         $maxgrootte = 10 * 1014 * 1024; // Bepaalt de maximale bestandsgrootte (10 MB)
+        $sleutel = "jouw_geheime_sleutel_32tekens!!"; // AES-256 sleutel (precies 32 tekens)
+$iv = openssl_random_pseudo_bytes(16); // Willekeurige IV voor elke upload
+$inhoud = file_get_contents($_FILES["bestand"]["tmp_name"]); // Leest bestandsinhoud
+$versleuteld = openssl_encrypt($inhoud, "AES-256-CBC", $sleutel, 0, $iv); // Versleutelt met AES-256
+file_put_contents($doel, base64_encode($iv) . "::" . $versleuteld); // Slaat IV + versleuteld bestand op
         if (move_uploaded_file($_FILES["bestand"]["tmp_name"], $doel)) { // Verplaatst het bestand van de tijdelijke map naar de uploadmap
             $melding = "Upload gelukt! Bestand opgeslagen als: " . htmlspecialchars($bestandsnaam);
         } else {

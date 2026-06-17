@@ -21,6 +21,12 @@ if (isset($_GET["file"])) {
         header("Content-Length: " . filesize($pad)); // Grootte van het bestand
 
         // Leest het bestand en stuurt de inhoud direct naar de browser
+        $sleutel = "jouw_geheime_sleutel_32tekens!!"; // Zelfde sleutel als bij upload
+$inhoud = file_get_contents($pad); // Leest het versleutelde bestand
+[$ivBase64, $versleuteld] = explode("::", $inhoud, 2); // Splits IV en versleutelde inhoud
+$iv = base64_decode($ivBase64); // Decodeer de IV
+echo openssl_decrypt($versleuteld, "AES-256-CBC", $sleutel, 0, $iv); // Ontsleutelt en stuurt naar browser
+exit;
         readfile($pad);
         exit;
 
