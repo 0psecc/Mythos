@@ -16,21 +16,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // Controleert of het formulier ver
 
         $bestandsnaam = basename($_FILES["bestand"]["name"]); // Haalt de bestandsnaam op
         $doel = $uploadmap . $bestandsnaam; // Bouwt het volledige pad op waar het bestand naartoe gaat
-        $maxgrootte = 10 * 1014 * 1024; // Bepaalt de maximale bestandsgrootte (10 MB)
-        if (move_uploaded_file($_FILES["bestand"]["tmp_name"], $doel)) { // Verplaatst het bestand van de tijdelijke map naar de uploadmap
-            $melding = "Upload gelukt! Bestand opgeslagen als: " . htmlspecialchars($bestandsnaam);
+        $maxgrootte = 10 * 1024 * 1024; // 10MB -- 1014 aangepast naar 1024 (Typ fout)
+        if ($_FILES["bestand"]["size"] > $maxgrootte) {
+            $melding = "Bestand is groter dan 10 MB."; // Checkt nu wel of het bestand niet groter is dan 10 MB
         } else {
-            $melding = "Upload mislukt bij het verplaatsen van het bestand.";
+
+            /*
+            Oude methode zonder encryptie. Het bestand werd direct opgeslagen in de uploadmap en kon daardoor gewoon gelezen worden op de server.
+            if (move_uploaded_file($_FILES["bestand"]["tmp_name"], $doel)) {
+                $melding = "Upload gelukt! Bestand opgeslagen als: " . htmlspecialchars($bestandsnaam);
+            } else {
+                $melding = "Upload mislukt bij het verplaatsen van het bestand.";
+            }
+            */
+
+            // Nieuwe methode met AES-256 encryptie
+            $data = file_get_contents($_FILES["bestand"]["tmp_name"]); // Leest de inhoud van het geüploade bestand
+            $key = hash('sha256', 'MythosEcnryptieSleutel', true); // Maakt een sleutel voor de encryptie
+            $iv = random_bytes(16); // Maakt een willekeurige code aan die nodig is voor de encryptie
+
+            // Versleutelt de inhoud van het bestand met AES-256
+            $encryptedData = openssl_encrypt(
+                $data,
+                'AES-256-CBC',
+                $key,
+                OPENSSL_RAW_DATA,
+                $iv
+            ); 
+
+            // Slaat het versleutlde bestand op in de uploadmap
+            if (file_put_contents($doel . ".enc", $iv . $encryptedData)) {
+                $melding = "Upload gelukt! Bestand versleuteld opgeslagen.";
+            } else {
+                $melding = "Encryptie of oplsag mislukt.";
+            }
         }
 
     } else {
         $melding = "Geen geldig bestand ontvangen.";
     }
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>

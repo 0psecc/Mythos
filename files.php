@@ -22,7 +22,8 @@ $bestanden = scandir($uploadmap); // Leest alle bestanden in de map in een array
         if ($bestand !== "." && $bestand !== "..") { // Zorgt dat . en .. overgeslagen worden
             $heeftBestanden = true;
             $urlBestand = urlencode($bestand); // Maakt de bestandsnaam veilig voor in een URL
-            echo "<p><a href=\"download.php?file=$urlBestand\">$bestand downloaden</a></p>"; // Toont een downloadlink per bestand
+            $toonNaam = str_replace(".enc", "", $bestand); // Verbergt de "enc" extensie voor de gebruiker
+            echo "<p><a href=\"download.php?file=$urlBestand\">$toonNaam downloaden</a></p>";
         }
     }
 
