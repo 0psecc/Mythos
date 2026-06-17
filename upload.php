@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // Controleert of het formulier ver
 
         $bestandsnaam = basename($_FILES["bestand"]["name"]); // Haalt de bestandsnaam op
         $doel = $uploadmap . $bestandsnaam; // Bouwt het volledige pad op waar het bestand naartoe gaat
-
+        $maxgrootte = 10 * 1014 * 1024; // Bepaalt de maximale bestandsgrootte (10 MB)
         if (move_uploaded_file($_FILES["bestand"]["tmp_name"], $doel)) { // Verplaatst het bestand van de tijdelijke map naar de uploadmap
             $melding = "Upload gelukt! Bestand opgeslagen als: " . htmlspecialchars($bestandsnaam);
         } else {
