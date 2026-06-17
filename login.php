@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } else {
         // checks if user exists and prepares sql query to find username
-        $stmt = $conn->prepare("SELECT id, password, role FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
         //binds username to query
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -39,15 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         } else {
         
-        $stmt->bind_result($user_id, $hashed_password, $role);
+        $stmt->bind_result($user_id, $hashed_password);
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
             $_SESSION['user_id'] = $user_id;
 
             $_SESSION['username'] = $username;
-
-            $_SESSION['role'] = $role;
 
             header("Location: index.php");
 
