@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') { // Controleert of HTTPS aanwezig is voor het beveiligd uploaden van bestanden
+    die("HTTPS is vereist.");
+}
+
 $uploadmap = "uploads/";
 
 if (!file_exists($uploadmap)) {

@@ -1,3 +1,9 @@
+## Het probleem (geen HTTPS)
+Wanneer een gebruiker een bestand upload, wordt het bestand van de browser naar onze server gestuurd. 
+
+**Zonder HTTPS** kan iemand op het zelfde netwrk de gegevens onderscheppen en bekijken.
+**Met HTTPS** wordt het bestand versleuteld met TLS (TLS staat voor Transport Layer Security - De encrypte tijdens het transporteren)
+
 ## Sources
 Document: https://docs.google.com/document/d/1efiHoAXwd3X-kbULZATNIH91KQCMsJkHBHqyT5vuLOQ/edit?pli=1&tab=t.0
 
