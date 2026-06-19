@@ -10,10 +10,8 @@ if (isset($_GET["file"])) {
 
     // Bouw het volledige pad naar het bestand op
     $pad = $uploadmap . $bestand;
-    logActie("DOWNLOAD", $bestand); // Logt de download.
     // Controleert of het bestand bestaat.
     if (file_exists($pad)) {
-    require "logger.php"; // Zorgt dat de  logger werkt.
         // Stuur HTTP-headers naar de browser zodat deze het bestand
         // behandelt als een download (en niet probeert te tonen)
         header("Content-Type: application/octet-stream"); 

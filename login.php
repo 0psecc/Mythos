@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
     }   
 }
-logActie("MISLUKTE LOGIN", $_POST["gebruikersnaam"] ?? "onbekend");
+
 ?>
 
 
