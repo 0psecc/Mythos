@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost"; 
-$dbname = "mythos";
-$username = "root";
-$password = "";
+$servername = "database-5020707928.webspace-host.com"; 
+$dbname = "dbs15793234";
+$username = "dbu2762504";
+$password = "MythosDB_2026!";
 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
