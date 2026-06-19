@@ -1,4 +1,5 @@
 <?php
+require "logger.php"; // Zorgt dat de  logger werkt.
 if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') { // Controleert of HTTPS aanwezig is voor het beveiligd uploaden van bestanden
     die("HTTPS is vereist.");
 }
@@ -51,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") { // Controleert of het formulier ver
                 $melding = "Encryptie of oplsag mislukt.";
             }
         }
-
+    require "logger.php"; // Zorgt dat de  logger werkt.
+    
     } else {
         $melding = "Geen geldig bestand ontvangen.";
     }
