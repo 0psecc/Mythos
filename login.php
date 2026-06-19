@@ -10,7 +10,7 @@ $error = '';
 // Redirecting logged in users away from login
 if (isset($_SESSION['user_id'])) {
 
-    header("Location: index.php");
+    header("Location: /index.php");
 
     exit;
 }
@@ -43,13 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
+
+            // Vernieuwt het sessie-ID na een succesvolle login
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $user_id;
 
             $_SESSION['username'] = $username;
 
             $_SESSION['role'] = $role;
 
-            header("Location: index.php");
+            $_SESSION['created'] = time();
+
+            header("Location: /index.php");
 
             exit;
         
@@ -108,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="input-group">
                     <label for="password">Password</label>
 
-                    <input type="password" id="password" name="password" palceholder="........" required>
+                    <input type="password" id="password" name="password" placeholder="........" required>
                 </div>
 
                 <button type="submit" class="login-submit-btn">Login</button>

@@ -1,0 +1,22 @@
+RewriteEngine On
+
+DirectoryIndex index.php
+
+# Redirect .php → clean URL (SEO + consistent)
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Alleen als file of folder NIET bestaat → rewrite naar PHP
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^login/?$ login.php [L,QSA]
+RewriteRule ^register/?$ registration.php [L,QSA]
+RewriteRule ^logout/?$ logout.php [L,QSA]
+RewriteRule ^upload/?$ upload.php [L,QSA]
+
+RewriteRule ^download/([A-Za-z0-9]+)/?$ download.php?token=$1 [L,QSA]
+RewriteRule ^delete/([0-9]+)/?$ delete.php?id=$1 [L,QSA]
+
+RewriteRule ^$ index.php [L]
+RewriteRule ^index/?$ index.php [L]

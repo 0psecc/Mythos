@@ -1,65 +1,105 @@
 <?php
-// Definieer de map waar de uploads staan
-$uploadmap = "uploads/";
 
-// Controleer of er een file parameter in de URL meegegeven is
-if (isset($_GET["file"])) {
+require_once 'auth.php';
+require_once 'db_connection.php';
 
-    //Haalt alleen de bestandsnaam op, zonder mapstructuur
-    $bestand = basename($_GET["file"]);
+// Zorg dat token aanwezig is (clean URL of fallback)
+$token = $_GET['token'] ?? '';
 
-    // Bouw het volledige pad naar het bestand op
-    $pad = $uploadmap . $bestand;
-
-    // Controleert of het bestand bestaat.
-    if (file_exists($pad)) {
-
-        // Stuur HTTP-headers naar de browser zodat deze het bestand
-        // behandelt als een download (en niet probeert te tonen)
-        header("Content-Type: application/octet-stream"); 
-        // header("Content-Disposition: attachment; filename=\"" . $bestand . "\""); //Bestandsnaam
-        header("Content-Length: " . filesize($pad)); // Grootte van het bestand
-
-        // Verbeterde en nettere methode
-        $downloadNaam = str_replace(".enc", "", $bestand); // Laat de originele bestandsnaam zien
-        header("Content-Disposition: attachment; filename=\"" . $downloadNaam . "\"");
-
-        /*
-        Oude methode zonder encryptie. Het bestand werd direct naar de browser gestuurd. Dit werkte alleen zolang bestanden niet versleuteld werden opgeslagen.
-        readfile($pad);
-        exit;
-        */
-
-        // Leest het versleutelde bestand uit de uploadmap
-        $content = file_get_contents($pad);
-
-        // Haalt de willekeurige code (IV) uit het begin van het bestand
-        $iv = substr($content, 0, 16);
-
-        // Haalt de versleutelde inhoud van het bestand op
-        $encryptedData = substr($content, 16);
-
-        // Gebruikt dezelfde sleutel als bij het uploaden van het bestand
-        $key = hash('sha256', 'MythosEcnryptieSleutel', true);
-
-        // Ontsleutelt het bestand zodat het weer gebruikt kan worden
-        $decryptedData = openssl_decrypt(
-            $encryptedData,
-            'AES-256-CBC',
-            $key,
-            OPENSSL_RAW_DATA,
-            $iv
-        );
-
-        // Stuurt het originele bestand naar de browser
-        echo $decryptedData;
-        exit;
-
-    } else {
-        echo "Bestand bestaat niet.";
-    }
-
-} else {
-    echo "Geen bestand opgegeven.";
+if ($token === '') {
+    die("Geen download token opgegeven.");
 }
+
+// Haal bestand op uit database via token
+$stmt = $conn->prepare("
+    SELECT 
+        id,
+        filename,
+        encrypted_file,
+        file_password_hash,
+        expires_at,
+        used
+    FROM uploads
+    WHERE download_token = ?
+");
+
+$stmt->bind_param("s", $token);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("Bestand bestaat niet.");
+}
+
+$file = $result->fetch_assoc();
+
+// Controle: expired?
+if (strtotime($file['expires_at']) < time()) {
+
+    die("Deze link is verlopen.");
+}
+
+// Controle: al gebruikt?
+if ($file['used'] == 1) {
+    die("Deze downloadlink is al gebruikt.");
+}
+
+// Wachtwoord check (via POST)
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+?>
+
+<form method="POST">
+    <h2>Voer bestand wachtwoord in</h2>
+    <input type="password" name="file_password" required>
+    <button type="submit">Download</button>
+</form>
+
+<?php
+    exit;
+}
+
+// Check password
+$password = $_POST["file_password"] ?? '';
+
+if (!password_verify($password, $file["file_password_hash"])) {
+    die("Onjuist wachtwoord.");
+}
+
+// AES decrypt key
+$key = hash('sha256', 'MythosEcnryptieSleutel', true);
+
+// Split IV + data
+$content = $file["encrypted_file"];
+$iv = substr($content, 0, 16);
+$encryptedData = substr($content, 16);
+
+// Decrypt bestand
+$decryptedData = openssl_decrypt(
+    $encryptedData,
+    'AES-256-CBC',
+    $key,
+    OPENSSL_RAW_DATA,
+    $iv
+);
+
+// Markeer als gebruikt (one-time link)
+$stmt = $conn->prepare("
+    UPDATE uploads
+    SET used = 1
+    WHERE id = ?
+");
+
+$stmt->bind_param("i", $file["id"]);
+$stmt->execute();
+
+// Headers voor download
+header("Content-Type: application/octet-stream");
+header("Content-Disposition: attachment; filename=\"" . $file["filename"] . "\"");
+header("Content-Length: " . strlen($decryptedData));
+
+// Output file
+echo $decryptedData;
+
+exit;
+
 ?>

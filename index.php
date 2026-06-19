@@ -1,33 +1,49 @@
 <?php
-$servername = "localhost"; 
-$dbname = "mythos";
-$username = "root";
-$password = "";
 
-$melding = "";
+// Gebruiker moet ingelogd zijn voordat hij deze pagina mag zien
+require_once 'auth.php';
+
 ?>
 
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Bestand uploaden</title>
+    <title>Mythos Dashboard</title>
 </head>
 <body>
-    <h1>Bestand uploaden</h1>
 
-    <?php if ($melding): ?>
-        <p><?php echo $melding; ?></p>
-    <?php endif; ?>
+    <h1>Welkom, <?= htmlspecialchars($_SESSION['username']) ?></h1>
 
-<!-- Formulier dat naar upload.php stuurt via POST -->
-<!-- enctype="multipart/form-data" is verplicht voor het versturen van bestanden -->
-<form action="upload.php" method="post" enctype="multipart/form-data">
-    <label>Bestand kiezen:</label>
-    <input type="file" name="bestand" required> <!-- Bestandskiezer, verplicht in te vullen -->
-    <button type="submit">Uploaden</button>
-</form>
+    <p>Je bent succesvol ingelogd.</p>
 
-    <p><a href="files.php">Ga naar bestandenlijst</a></p>
+    <hr>
+
+    <h2>Bestand uploaden</h2>
+
+    <!-- Upload formulier (gaat straks naar nieuwe upload.php) -->
+    <form action="/upload" method="post" enctype="multipart/form-data">
+
+        <label>Kies bestand:</label>
+        <input type="file" name="bestand" required>
+
+        <br><br>
+
+        <label>Bestand wachtwoord:</label>
+        <input type="password" name="file_password" required>
+
+        <br><br>
+
+        <button type="submit">Uploaden</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Acties</h2>
+
+    <!-- Logout via simpele link (komen we later op terug) -->
+    <a href="/logout">Uitloggen</a>
+
 </body>
 </html>
