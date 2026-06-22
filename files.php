@@ -1,36 +1,95 @@
 <?php
-$uploadmap = "uploads/"; // Map waar bestanden worden opgeslagen
 
-if (!file_exists($uploadmap)) { // Als de map nog niet bestaat wordt hij aangemaakt
+$uploadmap = "uploads/";
+
+if (!file_exists($uploadmap)) {
     mkdir($uploadmap, 0777, true);
 }
 
-$bestanden = scandir($uploadmap); // Leest alle bestanden in de map in een array
+$bestanden = scandir($uploadmap);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
-    <title>Beschikbare bestanden</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mythos Files</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <h1>Beschikbare bestanden</h1>
 
-    <?php
-    $heeftBestanden = false;
-    foreach ($bestanden as $bestand) {
-        if ($bestand !== "." && $bestand !== "..") { // Zorgt dat . en .. overgeslagen worden
-            $heeftBestanden = true;
-            $urlBestand = urlencode($bestand); // Maakt de bestandsnaam veilig voor in een URL
-            echo "<p><a href=\"download.php?file=$urlBestand\">$bestand downloaden</a></p>"; // Toont een downloadlink per bestand
-        }
-    }
+<header class="navbar">
 
-    if (!$heeftBestanden) { // Als er geen bestanden zijn wordt melding getoond
-        echo "<p>Er zijn nog geen bestanden geüpload.</p>"; 
-    }
-    ?>
+    <h1>Mythos</h1>
 
-    <p><a href="upload.php">Terug naar uploaden</a></p>
+    <nav>
+        <a href="index.php" class="nav-btn">Upload</a>
+        <a href="logout.php" class="nav-btn">Logout</a>
+    </nav>
+
+</header>
+
+
+<main class="login-page-wrapper">
+
+    <div class="login-card files-card">
+
+        <h2>Beschikbare bestanden</h2>
+
+        <div class="file-list">
+
+            <?php
+
+            $heeftBestanden = false;
+
+            foreach ($bestanden as $bestand) {
+
+                if ($bestand !== "." && $bestand !== "..") {
+
+                    $heeftBestanden = true;
+
+                    $urlBestand = urlencode($bestand);
+
+                    echo '
+                    <div class="file-item">
+
+                        <span class="file-name">
+                            ' . htmlspecialchars($bestand) . '
+                        </span>
+
+                        <a href="download.php?file=' . $urlBestand . '" class="download-btn">
+                            Download
+                        </a>
+
+                    </div>';
+                }
+            }
+
+            if (!$heeftBestanden) {
+
+                echo '
+                <div class="empty-files">
+                    Er zijn nog geen bestanden geüpload.
+                </div>';
+            }
+
+            ?>
+
+        </div>
+
+
+        <a href="index.php" class="create-account-btn">
+            Terug naar uploaden
+        </a>
+
+    </div>
+
+</main>
+
 </body>
+
 </html>

@@ -1,0 +1,937 @@
+/* ==========================
+   MYTHOS - BLACK UI
+   ========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+:root {
+    --bg: #000;
+    --card: #0c0c0c;
+    --card-hover: #111;
+    --input: #050505;
+    --border: #222;
+
+    --text: #fff;
+    --muted: #999;
+}
+
+
+/* ==========================
+   RESET
+   ========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family: 'Inter', sans-serif;
+
+    line-height: 1.5;
+}
+
+
+
+/* ==========================
+   NAVBAR
+   ========================== */
+
+.navbar {
+
+    height: 70px;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+
+    padding: 0 40px;
+
+
+    border-bottom: 1px solid var(--border);
+
+    background: rgba(0,0,0,.95);
+
+}
+
+
+.navbar h1 {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+}
+
+
+.navbar nav {
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+
+.nav-btn {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    height:40px;
+
+    min-width:100px;
+
+
+    padding:0 20px;
+
+
+    background:white;
+
+    color:black;
+
+
+    border-radius:10px;
+
+
+    font-size:14px;
+
+    font-weight:600;
+
+
+    transition:.25s ease;
+
+}
+
+
+.nav-btn:hover {
+
+    transform:translateY(-2px);
+
+    opacity:.85;
+
+}
+
+
+
+/* ==========================
+   PAGE WRAPPER
+   ========================== */
+
+
+.login-page-wrapper {
+
+
+    min-height:calc(100vh - 70px);
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    padding:40px 20px;
+
+}
+
+
+
+
+/* ==========================
+   CARD
+   ========================== */
+
+
+.login-card {
+
+
+    width:100%;
+
+
+    max-width:430px;
+
+
+
+    background:var(--card);
+
+
+    border:1px solid var(--border);
+
+
+
+    border-radius:20px;
+
+
+
+    padding:40px;
+
+
+
+    animation:fadeUp .45s ease;
+
+
+
+    transition:.3s ease;
+
+
+}
+
+
+.login-card:hover {
+
+
+    background:var(--card-hover);
+
+
+    transform:translateY(-3px);
+
+
+}
+
+
+
+
+.login-card h2 {
+
+
+    text-align:center;
+
+
+    font-size:26px;
+
+
+    font-weight:600;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+/* ==========================
+   FORM
+   ========================== */
+
+
+.login-form,
+.login-card form {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:20px;
+
+
+}
+
+
+
+.input-group {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:8px;
+
+
+}
+
+
+
+.input-group label {
+
+
+    color:var(--muted);
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+.input-group input,
+input[type="file"] {
+
+
+    width:100%;
+
+
+    height:50px;
+
+
+
+    padding:0 15px;
+
+
+
+    border-radius:12px;
+
+
+    border:1px solid var(--border);
+
+
+
+    background:var(--input);
+
+
+    color:white;
+
+
+
+    font-size:15px;
+
+
+
+    transition:.25s ease;
+
+
+}
+
+
+
+input[type="file"] {
+
+
+    padding:12px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.input-group input:focus,
+input[type="file"]:focus {
+
+
+    outline:none;
+
+
+    border-color:white;
+
+
+    box-shadow:0 0 0 2px rgba(255,255,255,.08);
+
+
+}
+
+
+
+input::placeholder {
+
+
+    color:#555;
+
+
+}
+
+
+
+
+
+/* ==========================
+   BUTTON
+   ========================== */
+
+
+.login-submit-btn,
+button[type="submit"] {
+
+
+    width:100%;
+
+
+    height:50px;
+
+
+
+    margin-top:5px;
+
+
+
+    border:none;
+
+
+    border-radius:12px;
+
+
+
+    background:white;
+
+
+    color:black;
+
+
+
+    font-size:15px;
+
+
+    font-weight:600;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.25s ease;
+
+
+}
+
+
+
+
+.login-submit-btn:hover,
+button[type="submit"]:hover {
+
+
+    transform:translateY(-2px);
+
+
+    box-shadow:0 10px 25px rgba(255,255,255,.15);
+
+
+}
+
+
+
+.login-submit-btn:active,
+button[type="submit"]:active {
+
+
+    transform:scale(.98);
+
+
+}
+
+
+
+
+
+/* ==========================
+   LINKS
+   ========================== */
+
+
+.create-account-btn {
+
+
+    display:block;
+
+
+
+    text-align:center;
+
+
+
+    margin-top:22px;
+
+
+
+    color:var(--muted);
+
+
+
+    font-size:14px;
+
+
+
+    text-decoration:none;
+
+
+
+    transition:.25s;
+
+
+}
+
+
+
+.create-account-btn:hover {
+
+
+    color:white;
+
+
+}
+
+
+
+
+a {
+
+
+    color:white;
+
+    text-decoration:none;
+
+}
+
+
+
+
+
+/* ==========================
+   ERRORS
+   ========================== */
+
+
+.error-message {
+
+
+    width:100%;
+
+
+    padding:12px;
+
+
+
+    margin-bottom:20px;
+
+
+
+    border-radius:12px;
+
+
+
+    text-align:center;
+
+
+
+    background:#111;
+
+
+
+    border:1px solid #333;
+
+
+
+    color:white;
+
+
+
+    font-size:14px;
+
+
+}
+
+
+
+/* ==========================
+   GENERAL
+   ========================== */
+
+
+.page-title {
+
+
+    text-align:center;
+
+
+    font-size:32px;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+.page-content {
+
+
+    max-width:900px;
+
+
+    margin:auto;
+
+
+    padding:40px 20px;
+
+
+}
+
+
+
+
+/* ==========================
+   SCROLLBAR
+   ========================== */
+
+
+::-webkit-scrollbar {
+
+    width:8px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:black;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:#333;
+
+    border-radius:20px;
+
+}
+
+
+
+
+/* ==========================
+   ANIMATION
+   ========================== */
+
+
+@keyframes fadeUp {
+
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+
+    to {
+
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+
+/* ==========================
+   MOBILE
+   ========================== */
+
+
+@media(max-width:600px){
+
+
+    .navbar {
+
+
+        padding:0 18px;
+
+
+    }
+
+
+
+    .navbar h1 {
+
+
+        font-size:18px;
+
+
+    }
+
+
+
+    .nav-btn {
+
+
+        min-width:auto;
+
+
+        padding:0 14px;
+
+
+        font-size:13px;
+
+
+    }
+
+
+
+    .login-card {
+
+
+        padding:28px 22px;
+
+
+        border-radius:16px;
+
+
+    }
+
+
+
+    .login-card h2 {
+
+
+        font-size:22px;
+
+
+    }
+
+    /* ==========================
+   FILES PAGE
+   ========================== */
+
+
+.files-card {
+
+    max-width:600px;
+
+}
+
+
+
+.file-list {
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+
+}
+
+
+
+.file-item {
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+
+    padding:15px;
+
+
+    background:#050505;
+
+
+    border:1px solid var(--border);
+
+
+    border-radius:14px;
+
+
+    transition:.25s ease;
+
+
+}
+
+
+
+.file-item:hover {
+
+
+    background:#151515;
+
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+
+.file-name {
+
+
+    overflow:hidden;
+
+
+    text-overflow:ellipsis;
+
+
+    white-space:nowrap;
+
+
+    max-width:300px;
+
+
+    font-size:14px;
+
+
+    color:white;
+
+
+}
+
+
+
+
+.download-btn {
+
+
+    padding:9px 16px;
+
+
+    background:white;
+
+
+    color:black;
+
+
+    border-radius:10px;
+
+
+    font-size:13px;
+
+
+    font-weight:600;
+
+
+    transition:.25s ease;
+
+
+}
+
+
+
+.download-btn:hover {
+
+
+    transform:translateY(-2px);
+
+
+    opacity:.85;
+
+
+}
+
+
+
+
+.empty-files {
+
+
+    text-align:center;
+
+
+    padding:20px;
+
+
+    color:var(--muted);
+
+
+    border:1px dashed #333;
+
+
+    border-radius:12px;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+/* MOBILE FILES */
+
+@media(max-width:600px){
+
+
+    .file-item {
+
+
+        flex-direction:column;
+
+
+        gap:12px;
+
+
+        align-items:stretch;
+
+
+    }
+
+
+
+    .file-name {
+
+
+        max-width:100%;
+
+
+        text-align:center;
+
+
+    }
+
+
+
+    .download-btn {
+
+
+        text-align:center;
+
+
+    }
+
+
+}
+
+
+}
